@@ -20,7 +20,7 @@ Polynomial::Polynomial() {
 /// @brief constructor
 /// @param coefficients array with the coefficients of the polynomial
 /// @param size size of the array
-Polynomial::Polynomial(const double* coefficients, size_t size) {
+Polynomial::Polynomial(const double* coefficients, int size) {
 
 	cout << "*** Polynomial - Constructor ***\n\n";
 	
@@ -38,7 +38,7 @@ Polynomial::Polynomial(const Polynomial& p) {
 
 	Init();
 
-	size_t size = p.degree + 1;
+	int size = p.degree + 1;
 
 	SetNewParam(p.coeffs, size);
 
@@ -75,7 +75,7 @@ bool Polynomial::operator==(const Polynomial& p) {
 	if (p.degree != degree)
 		return false;
 
-	for (size_t i = 0; i <= degree; i++) {
+	for (int i = 0; i <= degree; i++) {
 		if (coeffs[i] != p.coeffs[i])
 			return false;
 	}
@@ -89,7 +89,7 @@ bool Polynomial::operator==(const Polynomial& p) {
 /// @return p_sum polynomial that is the sum of the two polynomials
 Polynomial Polynomial::operator+(const Polynomial& p) {
 
-	size_t MaxSize = max(degree, p.degree) + 1;
+	int MaxSize = max(degree, p.degree) + 1;
 
 	double* new_coeffs = new double[MaxSize];
 
@@ -97,21 +97,21 @@ Polynomial Polynomial::operator+(const Polynomial& p) {
 		ErrorMessage("operator+ - The allocation didn't go as expected");
 	}
 
-	for (size_t k = 0; k < MaxSize; k++) {
+	for (int k = 0; k < MaxSize; k++) {
 		new_coeffs[k] = 0;
 	}
 
-	for (size_t i = 0; i <= degree; i++)
+	for (int i = 0; i <= degree; i++)
 		new_coeffs[i] += coeffs[i];
 
-	for (size_t j = 0; j <= p.degree; j++)
+	for (int j = 0; j <= p.degree; j++)
 		new_coeffs[j] += p.coeffs[j];
 
 	Polynomial p_sum(new_coeffs, MaxSize);
 
 	if (new_coeffs) {
 		delete[] new_coeffs;
-		new_coeffs = nullptr;
+		new_coeffs = 0;
 	}
 
 	return p_sum;
@@ -126,6 +126,8 @@ Polynomial Polynomial::operator+(const Polynomial& p) {
 */
 void Polynomial::Init() {
 
+	coeffs = 0;
+	
 	int size = 1; 
 	
 	double new_coeffs[1] = { 1. };
@@ -139,7 +141,7 @@ void Polynomial::Init(const Polynomial& p) {
 
 	Init();
 
-	size_t size = p.degree + 1;
+	int size = p.degree + 1;
 
 	SetNewParam(p.coeffs, size);
 
@@ -151,7 +153,7 @@ void Polynomial::Reset() {
 
 	if (coeffs) {
 		delete[] coeffs;
-		coeffs = nullptr;
+		coeffs = 0;
 	}
 		
 	degree = 0;
@@ -162,7 +164,7 @@ void Polynomial::Reset() {
 /// @brief modifying degree & coeffs of the polinomial 
 /// @param new_coeffs array with the coefficients of the polynomial
 /// @param size size of the array
-void Polynomial::SetNewParam(const double* new_coeffs, size_t size) {
+void Polynomial::SetNewParam(const double* new_coeffs, int size) {
 
 	if (size <= 0) {
 		ErrorMessage("SetNewParam() - The size of the array should be a value greater than 0");
@@ -172,20 +174,21 @@ void Polynomial::SetNewParam(const double* new_coeffs, size_t size) {
 	Reset();
 
 	coeffs = new (nothrow) double[size];
-	if (coeffs == nullptr) {
+	if (coeffs == 0) {
 		ErrorMessage("SetNewParam() - The allocation didnt'go as expected: pointer to NULL");
 		return;
 	}
 
 	degree = size - 1;
-	for (size_t i = 0; i < size; i++) {
+	for (int i = 0; i < size; i++) {
 		coeffs[i] = new_coeffs[i];
 	}
+
 }
 
 /// @brief function that returns the degree of the polynomial
 /// @return degree the degree of the polynomial
-size_t Polynomial::GetDegree() {
+int Polynomial::GetDegree() {
 
 	return degree;
 
@@ -198,7 +201,7 @@ double Polynomial::GetValue(double x) const {
 
 	double value = 0.;
 
-	for (size_t i = 0; i <= degree; i++) {
+	for (int i = 0; i <= degree; i++) {
 		value += coeffs[i] * pow(x, i);
 	}
 
@@ -211,7 +214,7 @@ void Polynomial::Dump() {
 
 	cout << "*** Polynomial - Dump() ***\n\n";
 	 
-	for (size_t i = 0; i <= degree; i++) {
+	for (int i = 0; i <= degree; i++) {
 		if (coeffs[i] != 0) {
 			cout << coeffs[i];
 			cout << "(x^" << i << ")";

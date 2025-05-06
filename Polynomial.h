@@ -10,14 +10,14 @@ class Polynomial {
 
 private:
 	double* coeffs; // pointer to double that will point to the array of coefficients of the polynomial
-	size_t degree; // degree of the polynomial (size_t type returned by sizeof() and alignof() operators, it can store the maximum size of a theoretically possible array or an object)
+	int degree; // degree of the polynomial 
 
 public:
 
 	/// @name CONSTRUCTORS / DESTRUCTOR
 	/// @{
 	Polynomial(); 
-	Polynomial(const double* coefficients, size_t size);
+	Polynomial(const double* coefficients, int size);
 	Polynomial(const Polynomial& p);
 	~Polynomial();
 	/// @}
@@ -38,9 +38,9 @@ public:
 
 	/// @name GETTERS / SETTERS
 	/// @{
-	void SetNewParam(const double* new_coeffs, size_t size); // changes coeffs and degree
+	void SetNewParam(const double* new_coeffs, int size); // changes coeffs and degree
 
-	size_t GetDegree(); // returns the degree of the polynomial
+	int GetDegree(); // returns the degree of the polynomial
 	double GetValue(double x) const; // returns the value of the polynomail given a specific value of the variable
 	/// @}
 

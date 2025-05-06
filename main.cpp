@@ -9,6 +9,7 @@ using namespace std;
 int main() {
 
 	// instantiation of the objects
+	cout << "*** Instantiation of polynomial p1 ***\n\n";
 	Polynomial p1;
 
 	double coeff2[4] = { 0., 1.2, -3.6, 4. };
